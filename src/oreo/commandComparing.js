@@ -1,19 +1,55 @@
 module.exports = (existingCommand, localCommand) => {
-    const {name: existingName, description: existingDescription, options: existingOptions = []} = existingCommand
-    const {name: localName, description: localDescription, options: localOptions = []} = localCommand
-
-    const hasDifference = (a, b) => JSON.stringify(a) !== JSON.stringify(b)
-
-    const checkOptions = (existingOpts, localOpts) => {
-        return localOpts.some((localOpt) =>  {
-            const existingOpt = existingOpts.find((opt) => opt.name === localOpt.name)
-            if (!existingOpt) return true
-            return hasDifference(localOpt, existingOpt)
-        })
+    const areChoicesDifferent = (existingChoices, localChoices) => {
+      for (const localChoice of localChoices) {
+        const existingChoice = existingChoices?.find(
+          (choice) => choice.name === localChoice.name
+        );
+  
+        if (!existingChoice) {
+          return true;
+        }
+  
+        if (localChoice.value !== existingChoice.value) {
+          return true;
+        }
+      }
+      return false;
+    };
+  
+    const areOptionsDifferent = (existingOptions, localOptions) => {
+      for (const localOption of localOptions) {
+        const existingOption = existingOptions?.find(
+          (option) => option.name === localOption.name
+        );
+  
+        if (!existingOption) {
+          return true;
+        }
+  
+        if (
+          localOption.description !== existingOption.description ||
+          localOption.type !== existingOption.type ||
+          (localOption.required || false) !== existingOption.required ||
+          (localOption.choices?.length || 0) !==
+            (existingOption.choices?.length || 0) ||
+          areChoicesDifferent(
+            localOption.choices || [],
+            existingOption.choices || []
+          )
+        ) {
+          return true;
+        }
+      }
+      return false;
+    };
+  
+    if (
+      existingCommand.description !== localCommand.description ||
+      existingCommand.options?.length !== (localCommand.options?.length || 0) ||
+      areOptionsDifferent(existingCommand.options, localCommand.options || [])
+    ) {
+      return true;
     }
-
-    if (existingName !== localName || existingDescription !== localDescription || checkOptions(existingOptions, localOptions)) {
-        return true
-    }
-    return false
-}
+  
+    return false;
+  };
