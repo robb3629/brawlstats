@@ -28,19 +28,11 @@ module.exports={
             playertag.replace("#", "")
             }
             const diocane = url + playertag
-            fetch(diocane,{
-            headers: {
-              Authorization: `Bearer ${API_KEY}`,
-                }
-             }
-            )
+            const gattino = fetch(diocane,{headers: {Authorization: `Bearer ${API_KEY}`,}})
 
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.log(error))
-    
+            console.log(gattino.status_code)
         interaction.reply({
-            content: `You have ${response.json.trophies} trophies.`,
+            content: `You have ${gattino.json.trophies} trophies.`,
             ephemeral: false,
         })
     
