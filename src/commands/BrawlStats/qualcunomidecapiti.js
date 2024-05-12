@@ -1,34 +1,48 @@
-const { SlashCommandBuilder } = require("discord.js")
+const {ApplicationCommandOptionType, Client, Interaction} = require("discord.js")
 const { API_KEY } = require('../../config.json')
 const url = `https://api.brawlstars.com/v1/players/%23`
 
 module.exports={
-    data: new SlashCommandBuilder()
-        .setName("trophies")
-        .setDescription("This command tells you the amount of trophies on your account")
-        .addStringOption(option=>
-            option.setName("playertag")
-                    .setDescription("Insert the player tag")
-                    .setRequired(true)
-        ),
-    async execute(interaction) {
-        const playertag = interaction.options.getString("playertag") ?? "No playertag given";
-        if (playertag.startsWith("#")) {
+        /**
+         * 
+         *  @param {Client} client
+         *  @param {Interaction} interaction
+         * 
+         */
+
+
+        name : "trophies",
+        description: "Tells you the amount of trophies on your account",
+        options : [
+            {
+                name : "playertag",
+                description: "Enter player tag",
+                required : true,
+                type : ApplicationCommandOptionType.String,
+            }
+        ],
+
+        callback: (client, interaction) => {
+            const playertag = interaction.options.get("playertag").value
+            if (playertag.startsWith("#")) {
             playertag.replace("#", "")
-        }
-        const diocane = url + playertag
-        fetch(diocane,{
+            }
+            const diocane = url + playertag
+            fetch(diocane,{
             headers: {
               Authorization: `Bearer ${API_KEY}`,
-            }
-        }
-    )
+                }
+             }
+            )
 
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.log(error)
-    )
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.log(error))
     
-        await interaction.reply(data.json.trophies)
-    }
+        interaction.reply({
+            content: `You have ${response.json.trophies} trophies.`,
+            ephemeral: false,
+        })
+    
+        }
 }
