@@ -10,7 +10,8 @@
   "author": "daddy",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.15.1",
-    "dotenv": "^16.4.5"
+    "discord.js": "^14.15.2",
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.4.1"
   }
 }

@@ -14,6 +14,7 @@ const client = new Client({ intents: [
 eventHandler(client)
 
 client.commands = new Collection();
+client.buttons = new Collection()
 
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
