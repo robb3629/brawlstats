@@ -8,6 +8,9 @@ https://brawlapi.com/#/
 https://brawlapi.com/#/
 https://brawlapi.com/#/
 https://brawlapi.com/#/
+https://fankit.supercell.com/d/YvtsWV4pUQVm/game-assets?asset-type18=Profile+Pictures&power-league11=Power+League
+https://fankit.supercell.com/d/YvtsWV4pUQVm/game-assets?asset-type18=Profile+Pictures&power-league11=Power+League
+https://fankit.supercell.com/d/YvtsWV4pUQVm/game-assets?asset-type18=Profile+Pictures&power-league11=Power+League
 https://brawlapi.com/#/
 https://brawlapi.com/#/
 1) crea array con i nomi e poi la dividi e poi fa for x in array e crea field per ogni nome

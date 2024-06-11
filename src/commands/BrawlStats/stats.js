@@ -1,5 +1,6 @@
 const {SlashCommandBuilder, EmbedBuilder} = require('discord.js')
 const edge = require('../../oreo/edge')
+const playerTag = require('../../models/tags')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -8,25 +9,23 @@ module.exports = {
         .addStringOption(option => option
             .setName('playertag')
             .setDescription('Enter player tag')
-            .setRequired(true)
         ),
 
      async execute(client, interaction) {
-        const playertag = interaction.options.getString('playertag')
-        const tag = playertag.startsWith('#') ? playertag.slice(1) : playertag;
-        const gattino = await edge(tag, interaction)
-        const color = gattino.nameColor
-        var hex = "#"+color.slice(4)
+
+        function Stats(gattino){
+            const color = gattino.nameColor
+            var hex = "#"+color.slice(4)
         
-        const embed = new EmbedBuilder()
-            .setTitle(`${gattino.name}`)
-            .setColor(hex)
-            .setThumbnail(`https://cdn-old.brawlify.com/profile/${gattino.icon.id}.png`)
-            .addFields(
-                {name: 'Trophies', value: `${gattino.trophies}`, inline: true},
-                {name: 'Highest trophies', value: `${gattino.highestTrophies}`, inline: true},
-            )
-            .setFooter({text: `${gattino.tag}`})
+            const embed = new EmbedBuilder()
+                .setTitle(`${gattino.name}`)
+                .setColor(hex)
+                .setThumbnail(`https://cdn-old.brawlify.com/profile/${gattino.icon.id}.png`)
+                .addFields(
+                    {name: 'Trophies', value: `${gattino.trophies}`, inline: true},
+                    {name: 'Highest trophies', value: `${gattino.highestTrophies}`, inline: true},
+                )
+                .setFooter({text: `${gattino.tag}`})
             if (gattino.club.name) {embed.addFields({name: 'Club', value: `${gattino.club.name}`, inline: true})}
             embed.addFields(
                 { name: '\u200B', value: '\u200B' },
@@ -35,6 +34,29 @@ module.exports = {
                 {name: 'Trio victories', value: `${gattino['3vs3Victories']}`, inline: true}
             )
 
-        interaction.reply({embeds : [embed]})
+            return embed
+        }
+
+        let playertags = interaction.options.getString('playertag')
+
+        if (playertags) {
+            if (playertags.startsWith('#')) {playertag = playertag.replace('#','')}
+            gattino = await edge(playertags, interaction)
+            const embed = Stats(gattino)
+            interaction.reply({embeds : [embed]})
+        } else {
+            let taggy = await playerTag.findOne({userId: interaction.user.id})
+            if (!taggy) {
+                const embed = new EmbedBuilder()
+                    .setTitle(`There was an error`)
+                    .setColor('#7f1734')
+                    .setDescription(`You don't have a playertag saved.`)
+                    interaction.reply({embeds : [embed]})
+            } else {
+                gattino = await edge(taggy.thugger, interaction)
+                const embed = Stats(gattino)
+                interaction.reply({embeds : [embed]})
+            }
+        }
     }
 }

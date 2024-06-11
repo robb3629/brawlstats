@@ -14,8 +14,8 @@ module.exports = async (playertag, interaction) => {
         if (!response.ok) {
             const embed = new EmbedBuilder()
                 .setTitle(`Couldn't execute command.`)
-                .setDescription(`${gattino.reason}: ${response.status}`)
-                .setColor('DarkButNotBlack')
+                .setDescription(`Invalid player tag was given`)
+                .setColor('#ffb6c1')
             await interaction.reply({embeds : [embed]})
             return; // Exit function if there's an error response
         }

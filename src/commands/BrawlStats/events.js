@@ -24,31 +24,36 @@ module.exports = {
                 const embed = new EmbedBuilder()
                     .setDescription(`${gattino[x].event.map}\nThe map resets: <t:${Math.floor((new Date(usedate)) / 1000)}:R>`)
                     .setImage(`https://cdn-old.brawlify.com/map/${gattino[x].event.id}.png`)
-                    // .setFooter({text:`Ends: <t:${Math.floor((new Date('2024-06-01T08:00:00.000Z')) / 1000)}:R>`})
-                    // .setTimestamp(new Date('2024-06-01T08:00:00.010Z'))
-    
-                if (gattino[x].event.mode == 'brawlBall') {
-                    embed.setTitle('Brawl Ball')
-                } else if (gattino[x].event.mode == 'soloShowdown') {
-                    embed.setTitle('Solo Showdown')
-                } else if (gattino[x].event.mode == 'hotZone') {
-                    embed.setTitle('Hot Zone')
-                } else if (gattino[x].event.mode == 'duoShowdown') {
-                    embed.setTitle('Duo Showdown')
-                } else if (gattino[x].event.mode == 'knockout') {
-                    embed.setTitle('Knockout')
-                } else if (gattino[x].event.mode == 'gemGrab') {
-                    embed.setTitle('Gem Grab')
-                } else if (gattino[x].event.mode == 'heist') {
-                    embed.setTitle('Heist')
-                } else if (gattino[x].event.mode == 'duels') {
-                    embed.setTitle('Duels')
-                } else if (gattino[x].event.mode == '') {
-                    embed.setTitle('')
-                } else if (gattino[x].event.mode == '') {
-                    embed.setTitle('')
+ 
+                switch (gattino[x].event.mode) {
+                    case 'brawlBall':
+                        embed.setTitle('Brawl Ball')
+                        break;
+                    case 'soloShowdown':
+                        embed.setTitle('Solo Showdown')
+                        break;
+                    case 'hotZone':
+                        embed.setTitle('Hot Zone')
+                        break;
+                    case 'duoShowdown':
+                        embed.setTitle('Duo Showdown')
+                        break;
+                    case 'knockout':
+                        embed.setTitle('Knockout')
+                        break;
+                    case 'gemGrab':
+                        embed.setTitle('Gem Grab')
+                        break;
+                    case 'heist':
+                        embed.setTitle('Heist')
+                        break;
+                    case 'duels':
+                        embed.setTitle('Duels')
+                        break;
+                    case 'wipeout':
+                        embed.setTitle('Wipeout')
+                        break;
                 }
-    
                 embedarray.push(embed)
             }
     
