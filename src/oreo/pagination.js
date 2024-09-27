@@ -1,6 +1,6 @@
 const {ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, ChatInputCommandInteraction} = require('discord.js')
 
-module.exports = async (interaction, pages, time = 30 * 1000) => {
+module.exports = async (interaction, pages, time = 300 * 1000) => {
 
     try {
         if(!interaction || !pages || !pages > 0) throw new Error('Invalid arguments')
