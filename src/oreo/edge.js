@@ -17,6 +17,7 @@ module.exports = async (playertag, interaction) => {
                 .setDescription(`Invalid player tag was given`)
                 .setColor('#ffb6c1')
             await interaction.reply({embeds : [embed]})
+            console.log(`%c Error. Response: ${response}', 'color: #ff0000`)
             return; // Exit function if there's an error response
         }
 
