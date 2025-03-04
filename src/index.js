@@ -13,8 +13,8 @@ const client = new Client({ intents: [
 
 (async () => {
 try {
-		// await mongoose.connect('mongodb://localhost:27017/BrawlStats')
-		// console.log('MongoDB connected.')
+		await mongoose.connect('mongodb://localhost:27017/BrawlStats')
+		console.log('MongoDB connected.')
 	
 		eventHandler(client)
 		client.login(token);
